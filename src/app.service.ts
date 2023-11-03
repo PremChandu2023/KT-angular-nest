@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { CreateUserDto } from './dto/create.user.dto';
+import { CreateUserDto, UpdateUserDto } from './dto/create.user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entites/user.entity';
 import { Repository } from 'typeorm';
@@ -13,10 +13,15 @@ export class AppService {
   getHello(): string {
     return 'Hello World!';
   }
-  async changePassword(userDetails: CreateUserDto) {
+  async changePassword(userDetails: UpdateUserDto) {
     const newUser = await this.userRepository.findOne({where: {user_name:userDetails.userName}});
+
     if(!newUser) throw new BadRequestException('invalid userName');
-    newUser.password=userDetails.password;
+    if(!(newUser.password === userDetails.currentPassword))
+    {
+       throw new BadRequestException('Given current password is invalid');
+    }
+    newUser.password=userDetails.newPassword;
     return await this.userRepository.save(newUser);
   }
   async getUserByName(getUsers: CreateUserDto) {
