@@ -6,4 +6,6 @@ export class User {
   id: number
   @Column()
   user_name:string
+  @Column()
+  password:string
 }
