@@ -13,8 +13,8 @@ export class AppService {
   getHello(): string {
     return 'Hello World!';
   }
-  getUserByName(userName: string) {
-    const newUser = this.userRepository.findOne({
+  async getUserByName(userName: string) {
+    const newUser = await this.userRepository.findOne({
       where: { user_name: userName },
     });
     if (!newUser) throw new BadRequestException('invalid credentials');
