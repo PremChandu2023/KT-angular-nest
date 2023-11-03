@@ -1,4 +1,4 @@
-import { Body, Controller, Get, InternalServerErrorException, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, InternalServerErrorException, Param, Post, Put } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateUserDto } from './dto/create.user.dto';
 
@@ -9,6 +9,11 @@ export class AppController {
   @Get('/name')
  async  getHello(@Body('userName') userName:CreateUserDto) {
     return await this.appService.getUserByName(userName);
+  }
+  @Put('password')
+  async updatePassword(@Body() getUsers:CreateUserDto)
+  {
+      return await this.appService.changePassword(getUsers);
   }
 
   @Post()

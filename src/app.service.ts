@@ -13,9 +13,15 @@ export class AppService {
   getHello(): string {
     return 'Hello World!';
   }
+  async changePassword(userDetails: CreateUserDto) {
+    const newUser = await this.userRepository.findOne({where: {user_name:userDetails.userName}});
+    if(!newUser) throw new BadRequestException('invalid userName');
+    newUser.password=userDetails.password;
+    return await this.userRepository.save(newUser);
+  }
   async getUserByName(getUsers: CreateUserDto) {
     const newUser = await this.userRepository.findOne({
-      where: { user_name: getUsers.userName,password:getUsers.password },
+      where: { user_name: getUsers.userName, password: getUsers.password },
     });
     if (!newUser) throw new BadRequestException('invalid credentials');
     return newUser;
