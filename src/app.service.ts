@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { CreateUserDto } from './dto/create.user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entites/user.entity';
@@ -13,9 +13,12 @@ export class AppService {
   getHello(): string {
     return 'Hello World!';
   }
-  getUserByName(userName:string)
-  {
-      return  this.userRepository.findOne({where: {user_name:userName}});
+  getUserByName(userName: string) {
+    const newUser = this.userRepository.findOne({
+      where: { user_name: userName },
+    });
+    if (!newUser) throw new BadRequestException('invalid credentials');
+    return newUser;
   }
   async createUser(userDetails: CreateUserDto): Promise<User> {
     const newUser = this.userRepository.create({
@@ -24,6 +27,6 @@ export class AppService {
     });
 
     console.log();
-   return await this.userRepository.save(newUser);
+    return await this.userRepository.save(newUser);
   }
 }
