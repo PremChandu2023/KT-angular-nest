@@ -13,9 +13,9 @@ export class AppService {
   getHello(): string {
     return 'Hello World!';
   }
-  async getUserByName(userName: string) {
+  async getUserByName(getUsers: CreateUserDto) {
     const newUser = await this.userRepository.findOne({
-      where: { user_name: userName },
+      where: { user_name: getUsers.userName,password:getUsers.password },
     });
     if (!newUser) throw new BadRequestException('invalid credentials');
     return newUser;

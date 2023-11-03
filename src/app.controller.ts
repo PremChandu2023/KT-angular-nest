@@ -7,7 +7,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get('/name')
- async  getHello(@Body('userName') userName:string) {
+ async  getHello(@Body('userName') userName:CreateUserDto) {
     return await this.appService.getUserByName(userName);
   }
 
