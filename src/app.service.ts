@@ -13,6 +13,10 @@ export class AppService {
   getHello(): string {
     return 'Hello World!';
   }
+  getUserByName(userName:string)
+  {
+      return  this.userRepository.findOne({where: {user_name:userName}});
+  }
   async createUser(userDetails: CreateUserDto): Promise<User> {
     const newUser = this.userRepository.create({
       user_name: userDetails.userName,
