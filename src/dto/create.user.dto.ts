@@ -4,9 +4,11 @@ export class CreateUserDto {
   @IsNotEmpty()
   userName: string;
   @Length(5)
-  password?: string;
+  password: string;
 }
 export class UpdateUserDto extends CreateUserDto{
+  @IsNotEmpty()
+  userName: string;
     @Length(5)
     currentPassword:string
     @Length(5)
