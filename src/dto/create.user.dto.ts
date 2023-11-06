@@ -6,9 +6,7 @@ export class CreateUserDto {
   @Length(5)
   password: string;
 }
-export class UpdateUserDto extends CreateUserDto{
-  @IsNotEmpty()
-  userName: string;
+export class UpdateUserDto {
     @Length(5)
     currentPassword:string
     @Length(5)

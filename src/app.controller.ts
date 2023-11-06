@@ -10,10 +10,10 @@ export class AppController {
  async  getHello(@Body() userName:CreateUserDto) {
     return await this.appService.getUserByName(userName);
   }
-  @Put('password')
-  async updatePassword(@Body() getUsers:UpdateUserDto)
+  @Put('/:name/password')
+  async updatePassword(@Param('name') name:string,@Body() getUsers:UpdateUserDto)
   {
-      return await this.appService.changePassword(getUsers);
+      return await this.appService.changePassword(name,getUsers);
   }
 
   @Post()

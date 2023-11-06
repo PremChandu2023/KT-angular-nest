@@ -13,15 +13,16 @@ export class AppService {
   getHello(): string {
     return 'Hello World!';
   }
-  async changePassword(userDetails: UpdateUserDto) {
-    const newUser = await this.userRepository.findOne({where: {user_name:userDetails.userName}});
+  async changePassword(userName: string, userDetails: UpdateUserDto) {
+    const newUser = await this.userRepository.findOne({
+      where: { user_name: userName },
+    });
 
-    if(!newUser) throw new BadRequestException('invalid userName');
-    if(!(newUser.password === userDetails.currentPassword))
-    {
-       throw new BadRequestException('Given current password is invalid');
+    if (!newUser) throw new BadRequestException('invalid userName');
+    if (!(newUser.password === userDetails.currentPassword)) {
+      throw new BadRequestException('Given current password is invalid');
     }
-    newUser.password=userDetails.newPassword;
+    newUser.password = userDetails.newPassword;
     return await this.userRepository.save(newUser);
   }
   async getUserByName(getUsers: CreateUserDto) {
